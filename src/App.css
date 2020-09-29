@@ -87,14 +87,14 @@ img {
   padding: 20px;
 }
 
-#break-length > div,
-#session-length > div {
+#break-length-section > div,
+#session-length-section > div {
   display: inline-block;
   margin: auto 10px;
 }
 
-#break-length > p,
-#session-length > p {
+#break-length-section > p,
+#session-length-section > p {
   margin-bottom: 10px;
 }
 
@@ -103,14 +103,14 @@ img {
   margin-bottom: 50px;
 }
 
-#display-title {
+#timer-label {
   font-size: 40px;
   font-family: "Bangers", cursive;
   color: #f7f7f7;
   margin-bottom: 20px;
 }
 
-#display {
+#time-left {
   padding: 5px 10px;
   background: rgb(48, 48, 48);
   color: #5eff00;
@@ -122,11 +122,12 @@ img {
 }
 
 .display-sm {
-  padding: 5px 10px;
+  /* padding: 5px 10px; */
   background: rgb(48, 48, 48);
   color: #5eff00;
   border-radius: 5px;
   font-family: "Audiowide", cursive;
+  width: 60px;
 }
 
 #control-section {
@@ -138,5 +139,5 @@ img {
 #control-section > div {
   display: inline-block;
   font-size: 50px;
-  margin: auto 20px;
+  margin-right: 30px;
 }
