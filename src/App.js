@@ -5,28 +5,82 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      breakLength: 55,
-      sessionLength: 25,
-      timeLeft: "25:00",
-      minutesLeft: 0,
-      secondsLeft: 0,
+      breakLength: 300,
+      sessionLength: 1500,
+      timeLeft: 1500,
+      timeLabel: "Session",
+      timeIntervel: "",
+      running: false,
     };
 
+    this.handleReset = this.handleReset.bind(this);
     this.handleBreakIncrement = this.handleBreakIncrement.bind(this);
-    this.handleBreakdecrement = this.handleBreakdecrement.bind(this);
+    this.handleBreakDecrement = this.handleBreakDecrement.bind(this);
+    this.handleSessionIncrement = this.handleSessionIncrement.bind(this);
+    this.handleStartTimer = this.handleStartTimer.bind(this);
+  }
+
+  handleReset() {
+    this.setState((state) => ({
+      breakLength: 300,
+      sessionLength: 1500,
+      timeLeft: 1500,
+      timeIntervel: clearInterval(state.timeIntervel),
+      running: false,
+    }));
   }
 
   handleBreakIncrement() {
-    this.setState((state) => ({
-      breakLength: state.breakLength + 1,
-    }));
+    if (this.state.breakLength + 60 <= 3600) {
+      this.setState((state) => ({
+        breakLength: state.breakLength + 60,
+      }));
+    }
   }
 
-  handleBreakdecrement() {
-    this.setState((state) => ({
-      breakLength: state.breakLength - 1,
-    }));
+  handleBreakDecrement() {
+    if (this.state.breakLength - 60 >= 60) {
+      this.setState((state) => ({
+        breakLength: state.breakLength - 60,
+      }));
+    }
   }
+
+  handleSessionIncrement() {
+    if (this.state.sessionLength + 60 <= 3600) {
+      this.setState((state) => ({
+        sessionLength: state.sessionLength + 60,
+      }));
+    }
+  }
+
+  handleSessionDecrement() {
+    if (this.state.sessionLength - 60 >= 60) {
+      this.setState((state) => ({
+        sessionLength: state.sessionLength - 60,
+      }));
+    }
+  }
+
+  handleStartTimer() {
+    if (this.state.running === true) {
+      this.setState((state) => ({
+        timeIntervel: clearInterval(state.timeIntervel),
+        running: false,
+      }));
+    } else {
+      this.setState({
+        timeIntervel: setInterval(this.doStuff, 1000),
+        running: true,
+      });
+    }
+  }
+
+  doStuff() {
+    console.log("hello");
+  }
+
+  componentDidMount() {}
 
   render() {
     return (
@@ -43,18 +97,18 @@ class App extends React.Component {
             </p>
             <div className="down-arrow-container">
               <i
-                class="fa fa-arrow-down"
+                className="fa fa-arrow-down"
                 id="break-decrement"
-                onClick={this.handleBreakdecrement}
+                onClick={this.handleBreakDecrement}
               ></i>
             </div>
             <div className="display-sm select-off" id="break-length">
-              {this.state.breakLength}
+              {this.state.breakLength / 60}
             </div>
 
             <div className="up-arrow-container">
               <i
-                class="fa fa-arrow-up"
+                className="fa fa-arrow-up"
                 id="break-increment"
                 onClick={this.handleBreakIncrement}
               ></i>
@@ -65,27 +119,46 @@ class App extends React.Component {
               Session Length
             </p>
             <div className="up-arrow-container">
-              <i class="fa fa-arrow-up" id="session-increment"></i>
+              <i
+                className="fa fa-arrow-up"
+                id="session-increment"
+                onClick={this.handleSessionIncrement}
+              ></i>
             </div>
             <div className="display-sm select-off" id="session-length">
-              {this.state.sessionLength}
+              {this.state.sessionLength / 60}
             </div>
             <div className="down-arrow-container">
-              <i class="fa fa-arrow-down" id="session-decrement"></i>
+              <i
+                className="fa fa-arrow-down"
+                id="session-decrement"
+                onClick={this.handleSessionDecrement}
+              ></i>
             </div>
           </div>
         </div>
         <div id="display-section">
-          <p id="timer-label">Session</p>
-          <div id="time-left">{this.state.timeLeft}</div>
+          <div id="timer-label">{this.state.timeLabel}</div>
+          <div id="time-left">
+            {new Date(1500 * 1000).toISOString().substr(14, 5)}
+          </div>
         </div>
         <div id="control-section">
           <div id="start-btn">
-            <i class="fa fa-play" id="start_stop" aria-hidden="true"></i>
-            <i class="fa fa-pause" aria-hidden="true"></i>
+            <i className="fa fa-play" id="start_stop" aria-hidden="true"></i>
+            <i
+              className="fa fa-pause"
+              aria-hidden="true"
+              onClick={this.handleStartTimer}
+            ></i>
           </div>
           <div id="reset-btn">
-            <i class="fa fa-refresh" id="reset" aria-hidden="true"></i>
+            <i
+              className="fa fa-refresh"
+              id="reset"
+              aria-hidden="true"
+              onClick={this.handleReset}
+            ></i>
           </div>
         </div>
       </div>
