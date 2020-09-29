@@ -18,6 +18,8 @@ class App extends React.Component {
     this.handleBreakDecrement = this.handleBreakDecrement.bind(this);
     this.handleSessionIncrement = this.handleSessionIncrement.bind(this);
     this.handleStartTimer = this.handleStartTimer.bind(this);
+
+    this.doStuff = this.doStuff.bind(this);
   }
 
   handleReset() {
@@ -77,7 +79,10 @@ class App extends React.Component {
   }
 
   doStuff() {
-    console.log("hello");
+    this.setState((state) => ({
+      timeLeft: state.timeLeft - 60 / 60,
+    }));
+    console.log("gee");
   }
 
   componentDidMount() {}
@@ -140,17 +145,13 @@ class App extends React.Component {
         <div id="display-section">
           <div id="timer-label">{this.state.timeLabel}</div>
           <div id="time-left">
-            {new Date(1500 * 1000).toISOString().substr(14, 5)}
+            {new Date(this.state.timeLeft * 1000).toISOString().substr(14, 5)}
           </div>
         </div>
         <div id="control-section">
-          <div id="start-btn">
-            <i className="fa fa-play" id="start_stop" aria-hidden="true"></i>
-            <i
-              className="fa fa-pause"
-              aria-hidden="true"
-              onClick={this.handleStartTimer}
-            ></i>
+          <div id="start_stop" onClick={this.handleStartTimer}>
+            <i className="fa fa-play" aria-hidden="true"></i>
+            <i className="fa fa-pause" aria-hidden="true"></i>
           </div>
           <div id="reset-btn">
             <i
